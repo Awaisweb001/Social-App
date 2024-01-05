@@ -25,7 +25,6 @@ app.use("/api/posts", postRoutes);
 app.use("/api", commentRoutes);
 app.use("/api", FriendRoutes);
 
-
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
