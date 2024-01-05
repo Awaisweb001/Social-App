@@ -1,14 +1,15 @@
+
 import mongoose from 'mongoose';
 
-const commentSchema = new mongoose.Schema(
+const replySchema = new mongoose.Schema(
   {
     content: {
       type: String,
       required: true,
     },
-    post: {
+    comment: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Post',
+      ref: 'Comment',
       required: true,
     },
     author: {
@@ -16,12 +17,6 @@ const commentSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    replies: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Reply',
-      },
-    ],
     createdAt: {
       type: Date,
       default: Date.now,
@@ -30,6 +25,6 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Comment = mongoose.model('Comment', commentSchema);
+const Reply = mongoose.model('Reply', replySchema);
 
-export default Comment;
+export default Reply;

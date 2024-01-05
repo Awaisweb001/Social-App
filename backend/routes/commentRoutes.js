@@ -1,9 +1,19 @@
-import express from 'express';
-import { createComment } from '../controllers/commentController.js';
-import { authenticateUser } from '../middlewares/authMiddleware.js';
+import express from "express";
+import {
+  createComment,
+  createReply,
+} from "../controllers/commentController.js";
+import { authenticateUser } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post('/posts/:postId/comments', authenticateUser, createComment);
+
+// Create Comment Route
+
+router.post("/posts/:postId/comments", authenticateUser, createComment);
+
+// Create Reply on Comment Route
+
+router.post("/comments/:commentId/replies", authenticateUser, createReply);
 
 export default router;
