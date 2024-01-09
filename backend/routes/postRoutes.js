@@ -4,6 +4,7 @@ import {
   getPosts,
   deletePost,
   likePost,
+  updatePost,
 } from "../controllers/postcontroller.js";
 import { authenticateUser } from "../middlewares/authMiddleware.js";
 
@@ -20,5 +21,9 @@ router.get("/AllPosts", getPosts);
 // Like on Post
 
 router.post("/:postId/like", authenticateUser, likePost);
+
+// Update Post
+
+router.put("/:postId", authenticateUser, updatePost);
 
 export default router;

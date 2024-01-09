@@ -21,6 +21,39 @@ export const createPost = async (req, res) => {
   }
 };
 
+// Update Post
+
+export const updatePost = async (req, res) => { 
+  try {
+    const postId = req.params.postId;
+    const { title, content, image } = req.body;
+
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    if (post.author.toString() !== req.userId) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to update this post" });
+    }
+
+    post.title = title;
+    post.content = content;
+    post.image = image;
+
+    await post.save();
+
+    res.status(200).json({ message: "Post updated successfully", post });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: "Error updating post", error: error.message });
+  }
+};
+
 // Get Post
 
 export const getPosts = async (req, res) => {
@@ -41,7 +74,7 @@ export const getPosts = async (req, res) => {
       .populate({
         path: "likes.users",
         model: "User",
-        select: "firstName lastName", // Optionally select specific fields
+        select: "firstName lastName",
       })
       .populate("author", "firstName lastName");
 
@@ -88,7 +121,6 @@ export const likePost = async (req, res) => {
     const postId = req.params.postId;
     const userId = req.userId;
 
-    // Find the post by ID
     const post = await Post.findById(postId);
 
     // Check if the post exists
